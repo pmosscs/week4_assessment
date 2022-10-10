@@ -45,13 +45,25 @@ module.exports = {
             if (songs[i].song === existingSong) {
                 //console.log('found it!')
                 songs[i].song = newSong;
-                res.status(200).send('Song Title Updated');
+                res.status(200).send(songs);
                 console.log(songs);
                 return;
             } 
             
         }
         res.status(400).send('Song not found');
+    },
+
+    deleteSong: (req, res) => {
+        let songTitle = req.params.song;
+        for (let i = 0; i < songs.length; i++) {
+            if (songs[i].song === songTitle) {
+                songs.splice(i, 1);
+                res.status(200).send(songs)
+                return;
+            }
+        }
+        res.status(400).send('song not found');
     }
 
 }

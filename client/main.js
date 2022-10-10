@@ -1,4 +1,5 @@
 
+
 const complimentBtn = document.getElementById("complimentButton")
 
 const fortuneBtn = document.getElementById("fortuneButton");
@@ -6,6 +7,8 @@ const fortuneBtn = document.getElementById("fortuneButton");
 const form = document.querySelector('#going-out-of-style');
 
 const changeForm = document.getElementById('was-a-class-guy-till-you-complained');
+
+const deleteForm = document.querySelector('.final-submit');
 
 const getCompliment = () => {
     axios.get("http://localhost:4000/api/compliment/")
@@ -29,7 +32,7 @@ const getFortune = () => {
 /* POST */
 ////// POST TO BACK END
 const addSong = (body) => {
-    axios.post("http://localhost:4000/api/songs", body)
+    axios.post("http://localhost:4000/api/songs", body).then(res => console.log(res.data));
 }
 
 ///// POST EVENT HANDLER
@@ -54,7 +57,7 @@ const submitSong = (event) => {
 /* PUT */
 ////// PUT TO BACK END
 const changeTitle = (id, change) => {
-    axios.put(`http://localhost:4000/api/songs/${id}`, change).then(res => console.log(res))
+    axios.put(`http://localhost:4000/api/songs/${id}`, change).then(res => console.log(res.data))
 }
 
 ////// PUT EVENT HANDLER
@@ -78,9 +81,22 @@ const changeSubmit = (event) => {
 
 /* DELETE */ 
 ////// TO BACK END
-
+const deleteSong = (song) => {
+    axios.delete(`http://localhost:4000/api/songs/${song}`).then(res => console.log(res.data));
+}
 
 ////// DELETE EVENT HANDLER
+const deleteHandler = (event) => {
+    event.preventDefault();
+
+    let itemToKill = document.querySelector('.delete-box').value;
+
+    deleteSong(itemToKill);
+
+    itemToKill.value = '';
+
+
+}
 
 
 complimentBtn.addEventListener('click', getCompliment)
@@ -90,3 +106,5 @@ fortuneBtn.addEventListener('click', getFortune);
 form.addEventListener('submit', submitSong);
 
 changeForm.addEventListener('submit', changeSubmit)
+
+deleteForm.addEventListener('submit', deleteHandler)
