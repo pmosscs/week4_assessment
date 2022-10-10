@@ -60,6 +60,7 @@ module.exports = {
             if (songs[i].song === songTitle) {
                 songs.splice(i, 1);
                 res.status(200).send(songs)
+                console.log(songs);
                 return;
             }
         }
