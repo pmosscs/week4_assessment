@@ -1,4 +1,5 @@
-const db = require('./db.js');
+const songs = require('./db.json');
+let newId = 4;
 
 module.exports = {
 
@@ -21,6 +22,37 @@ module.exports = {
         let randomFortune = fortunes[randomIndex];
 
         res.status(200).send(randomFortune); 
+    },
+
+    addSong: (req, res) => {
+        let { song, artist } = req.body
+        let newSong = {
+            id: newId,
+            song,
+            artist
+        }
+        songs.push(newSong)
+        console.log(songs);
+        res.status(200).send(songs)
+        newId++
+    },
+
+    changeTitle: (req, res) => {
+        let existingSong = req.params.song;
+        let newSong = req.body.song;
+        
+        for (let i = 0; i < songs.length; i++) {
+            if (songs[i].song === existingSong) {
+                //console.log('found it!')
+                songs[i].song = newSong;
+                res.status(200).send('Song Title Updated');
+                console.log(songs);
+                return;
+            } 
+            
+        }
+        res.status(400).send('Song not found');
     }
 
 }
+
